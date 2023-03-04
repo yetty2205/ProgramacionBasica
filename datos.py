@@ -8,5 +8,5 @@ nombre_usuario, correo_electronico_usuario, numero_telefonico_usuario = obtener_
 
 print("Nombre: ", nombre_usuario)
 print("Correo electrónico: ", correo_electronico_usuario)
-print("Número telefónico: ", numero_telefonico_usuario) 
+print("Número telefónico: ", numero_telefonico_usuario)  
 
