@@ -1,4 +1,10 @@
 import random
+import datetime
+
+precio_curso_teorico = 2000
+precio_curso_practico_con_carro_propio = 3500
+precio_curso_practico_con_carro_prestado = 4500
+precio_dictamen_medico = 5000
 
 def mainMenu():
     print("Bienvenido a la academia de manejo")
@@ -22,8 +28,8 @@ def mainMenu():
     elif opcion == "4":
         dictamenMedico()
     elif opcion == "5":
-        """ solicitarFactura() """
-    elif opcion == "5":
+        generarFactura()
+    elif opcion == "6":
         reporteAdministrativo()
     elif opcion == "0":
         print("Gracias por utilizar nuestros servicios")
@@ -157,6 +163,32 @@ def reporteAdministrativo(clave):
     print(f"Cantidad de reservas: {num_reservas}")
     print(f"Dinero recolectado: {dinero_total} colones")
     mainMenu()
-
-
-
+    
+def generarFactura(numero_factura, fecha_factura, nombre_cliente, direccion_cliente, servicios_contratados):
+    print("=== FACTURA ===")
+    print(f"Número de factura: {numero_factura}")
+    print(f"Fecha de factura: {fecha_factura}")
+    print(f"Nombre del cliente: {nombre_cliente}")
+    print(f"Dirección del cliente: {direccion_cliente}")
+    print("\n=== SERVICIOS CONTRATADOS ===")
+    total = 0
+    for servicio in servicios_contratados:
+        if servicio['tipo'] == 'Curso teórico':
+            total += precio_curso_teorico * servicio['cantidad_horas']
+            print(f"Curso teórico: {servicio['cantidad_horas']} horas x {precio_curso_teorico} colones/hora")
+        elif servicio['tipo'] == 'Curso práctico con carro propio':
+            total += precio_curso_practico_con_carro_propio * servicio['cantidad_horas']
+            print(f"Curso práctico con carro propio: {servicio['cantidad_horas']} horas x {precio_curso_practico_con_carro_propio} colones/hora")
+        elif servicio['tipo'] == 'Curso práctico con carro prestado':
+            total += precio_curso_practico_con_carro_prestado * servicio['cantidad_horas']
+            print(f"Curso práctico con carro prestado: {servicio['cantidad_horas']} horas x {precio_curso_practico_con_carro_prestado} colones/hora")
+        elif servicio['tipo'] == 'Dictamen médico':
+            total += precio_dictamen_medico
+            print(f"Dictamen médico: {precio_dictamen_medico} colones")
+            print(f"Tipo de sangre: {servicio['tipo_sangre']}")
+            print(f"Peso: {servicio['peso']} kg")
+            print(f"Estatura: {servicio['estatura']} cm")
+            print(f"Donador: {'Sí' if servicio['es_donador'] else 'No'}")
+    print("=== TOTAL ===")
+    print(f"Total: {total} colones")
+    mainMenu()
