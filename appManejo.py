@@ -57,6 +57,7 @@ def generarReserva():
 
 def reservarCursoTeorico():
     print("Este servicio se da de lunes a sábado, de 8am a 9pm, y su costo es de 2000 colones por hora.")
+    print("\n")
     horas = int(input("Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
 
     while horas < 1:
@@ -74,7 +75,7 @@ def reservarCursoTeorico():
     mainMenu()
 
 def reservarClasesManejo():
-    print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no")
+    print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no.")
 
     horas = int(input("Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
 
@@ -99,9 +100,10 @@ def reservarClasesManejo():
     with open("reservas.txt", "a") as file:
         file.write(f"Reserva de clases de manejo: {horas} horas, vehículo {opcion}, días {dias}\n")
 
-    # aquí se puede retornar el costo total de la reserva
-    return horas * costo_hora
-mainMenu()
+    costo_horas = horas * costo_hora
+
+    print(f"¡Reserva creada exitosamente! El costo total es de {costo_horas} colones.")
+    mainMenu()
 
 def dictamenMedico():
     nombre = input("Ingrese su nombre completo: ")
