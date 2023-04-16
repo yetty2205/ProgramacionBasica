@@ -103,7 +103,7 @@ def reservarClasesManejo():
     costo_horas = horas * costo_hora
 
     print(f"¡Reserva creada exitosamente! El costo total es de {costo_horas} colones.")
-    mainMenu()
+mainMenu()
 
 def dictamenMedico():
     nombre = input("Ingrese su nombre completo: ")
