@@ -77,7 +77,7 @@ def reservarCursoTeorico():
 def reservarClasesManejo():
     print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no.")
 
-    horas = int(input("Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
+    horas = int(input("\nIngrese la cantidad de horas a contratar (mínimo 1 hora): "))
 
     while horas < 1:
         horas = int(input("Cantidad de horas no válida. Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
@@ -103,10 +103,10 @@ def reservarClasesManejo():
     costo_horas = horas * costo_hora
 
     print(f"¡Reserva creada exitosamente! El costo total es de {costo_horas} colones.")
-mainMenu()
+    mainMenu()
 
 def dictamenMedico():
-    nombre = input("Ingrese su nombre completo: ")
+    nombre = input("\nIngrese su nombre completo: ")
     telefono = input("Ingrese su número telefónico: ")
     correo = input("Ingrese su correo electrónico: ")
     
@@ -138,34 +138,8 @@ def dictamenMedico():
     
     # aquí se puede imprimir el dictamen médico con los datos ingresados
     print(f"Dictamen médico:\nIdentificador: {identificador}\nNombre: {nombre}\nTeléfono: {telefono}\nCorreo electrónico: {correo}\nTipo de sangre: {tipo_sangre}\nPeso: {peso} kg\nEstatura: {estatura} m\nDonador de órganos: {donador}")
-    mainMenu()
+mainMenu()
 
-
-def reporteAdministrativo(clave):
-    if clave != "admin123": # Verifica que la clave de administrador sea correcta
-        print("Clave incorrecta. Acceso denegado.")
-        return
-    
-    
-    num_reservas = 0
-    dinero_total = 0
-    
-    
-    with open("reservas.txt", "r") as archivo:
-        for linea in archivo:
-            datos = linea.split(",") 
-            tipo_servicio = datos[0]
-            costo = int(datos[1])
-            num_horas = int(datos[2])
-            
-            num_reservas += num_horas
-            dinero_total += costo * num_horas
-            
-    # Imprime el reporte administrativo con la cantidad de reservas y el dinero recolectado
-    print(f"Cantidad de reservas: {num_reservas}")
-    print(f"Dinero recolectado: {dinero_total} colones")
-    mainMenu()
-    
 def generarFactura(numero_factura, fecha_factura, nombre_cliente, direccion_cliente, servicios_contratados):
     print("=== FACTURA ===")
     print(f"Número de factura: {numero_factura}")
@@ -193,4 +167,27 @@ def generarFactura(numero_factura, fecha_factura, nombre_cliente, direccion_clie
             print(f"Donador: {'Sí' if servicio['es_donador'] else 'No'}")
     print("=== TOTAL ===")
     print(f"Total: {total} colones")
+    mainMenu()
+
+def reporteAdministrativo(clave):
+    if clave != "admin123": # Verifica que la clave de administrador sea correcta
+        print("Clave incorrecta. Acceso denegado.")
+        return
+    
+    num_reservas = 0
+    dinero_total = 0
+    
+    with open("reservas.txt", "r") as archivo:
+        for linea in archivo:
+            datos = linea.split(",") 
+            tipo_servicio = datos[0]
+            costo = int(datos[1])
+            num_horas = int(datos[2])
+            
+            num_reservas += num_horas
+            dinero_total += costo * num_horas
+            
+    # Imprime el reporte administrativo con la cantidad de reservas y el dinero recolectado
+    print(f"Cantidad de reservas: {num_reservas}")
+    print(f"Dinero recolectado: {dinero_total} colones")
     mainMenu()
