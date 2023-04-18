@@ -1,10 +1,4 @@
 import random
-import datetime
-
-precio_curso_teorico = 2000
-precio_curso_practico_con_carro_propio = 3500
-precio_curso_practico_con_carro_prestado = 4500
-precio_dictamen_medico = 5000
 
 def mainMenu():
     print("Bienvenido a la academia de manejo")
@@ -35,7 +29,7 @@ def mainMenu():
         print("Gracias por utilizar nuestros servicios")
     else:
         print("Opción no válida, por favor ingrese una opción correcta.")
-        mainMenu()
+    mainMenu()
 
 def crearCuenta():
     nombre_completo = input("Ingrese su nombre completo: ")
@@ -47,7 +41,8 @@ def crearCuenta():
         archivo.write(f"{nombre_completo},{telefono},{correo},{contraseña}\n")
 
     print("¡Cuenta creada exitosamente!")
-    mainMenu()
+
+
 
 import random
 
@@ -72,7 +67,7 @@ def reservarCursoTeorico():
     costo_total = horas * 2000
 
     print(f"¡Reserva creada exitosamente! El costo total es de {costo_total} colones.")
-    mainMenu()
+
 
 def reservarClasesManejo():
     print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no.")
@@ -103,7 +98,7 @@ def reservarClasesManejo():
     costo_horas = horas * costo_hora
 
     print(f"¡Reserva creada exitosamente! El costo total es de {costo_horas} colones.")
-    mainMenu()
+
 
 def dictamenMedico():
     nombre = input("\nIngrese su nombre completo: ")
@@ -138,36 +133,38 @@ def dictamenMedico():
     
     # aquí se puede imprimir el dictamen médico con los datos ingresados
     print(f"Dictamen médico:\nIdentificador: {identificador}\nNombre: {nombre}\nTeléfono: {telefono}\nCorreo electrónico: {correo}\nTipo de sangre: {tipo_sangre}\nPeso: {peso} kg\nEstatura: {estatura} m\nDonador de órganos: {donador}")
-mainMenu()
 
-def generarFactura(numero_factura, fecha_factura, nombre_cliente, direccion_cliente, servicios_contratados):
-    print("=== FACTURA ===")
-    print(f"Número de factura: {numero_factura}")
-    print(f"Fecha de factura: {fecha_factura}")
-    print(f"Nombre del cliente: {nombre_cliente}")
-    print(f"Dirección del cliente: {direccion_cliente}")
-    print("\n=== SERVICIOS CONTRATADOS ===")
+
+def generarFactura():
+    curso_teorico = 2000
+    curso_practico_propio = 3500
+    curso_practico_prestado = 4500
+    dictamen_medico = 5000
+
     total = 0
-    for servicio in servicios_contratados:
-        if servicio['tipo'] == 'Curso teórico':
-            total += precio_curso_teorico * servicio['cantidad_horas']
-            print(f"Curso teórico: {servicio['cantidad_horas']} horas x {precio_curso_teorico} colones/hora")
-        elif servicio['tipo'] == 'Curso práctico con carro propio':
-            total += precio_curso_practico_con_carro_propio * servicio['cantidad_horas']
-            print(f"Curso práctico con carro propio: {servicio['cantidad_horas']} horas x {precio_curso_practico_con_carro_propio} colones/hora")
-        elif servicio['tipo'] == 'Curso práctico con carro prestado':
-            total += precio_curso_practico_con_carro_prestado * servicio['cantidad_horas']
-            print(f"Curso práctico con carro prestado: {servicio['cantidad_horas']} horas x {precio_curso_practico_con_carro_prestado} colones/hora")
-        elif servicio['tipo'] == 'Dictamen médico':
-            total += precio_dictamen_medico
-            print(f"Dictamen médico: {precio_dictamen_medico} colones")
-            print(f"Tipo de sangre: {servicio['tipo_sangre']}")
-            print(f"Peso: {servicio['peso']} kg")
-            print(f"Estatura: {servicio['estatura']} cm")
-            print(f"Donador: {'Sí' if servicio['es_donador'] else 'No'}")
-    print("=== TOTAL ===")
-    print(f"Total: {total} colones")
-    mainMenu()
+
+    with open("reservas.txt", "r") as archivo:
+        lineas = archivo.readlines()
+        for linea in lineas:
+            if "curso_teorico" in linea:
+                horas = int(linea.split(",")[2])
+                total += horas * curso_teorico
+            elif "curso_practico" in linea:
+                opcion = linea.split(",")[3].strip()
+                horas = int(linea.split(",")[2])
+                if opcion == "vehiculo_propio":
+                    total += horas * curso_practico_propio
+                elif opcion == "vehiculo_prestado":
+                    total += horas * curso_practico_prestado
+
+    with open("dictamenes.txt", "r") as archivo:
+        lineas = archivo.readlines()
+        for linea in lineas:
+            total += dictamen_medico
+
+    print(f"El total del dictamen médico, reserva del curso teórico y clases de manejo es de {total} colones.")
+
+
 
 def reporteAdministrativo(clave):
     if clave != "admin123": # Verifica que la clave de administrador sea correcta
@@ -190,4 +187,5 @@ def reporteAdministrativo(clave):
     # Imprime el reporte administrativo con la cantidad de reservas y el dinero recolectado
     print(f"Cantidad de reservas: {num_reservas}")
     print(f"Dinero recolectado: {dinero_total} colones")
-    mainMenu()
+
+mainMenu()
