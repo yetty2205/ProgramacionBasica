@@ -42,7 +42,56 @@ def crearCuenta():
 
     print("¡Cuenta creada exitosamente!")
 
+def reservarClasesManejo():
+    print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no")
 
+    # Horas disponibles
+    print("Horas disponibles: de 8am a 5pm")
+    print("Días disponibles: martes a domingo")
+
+    horas = int(input("Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
+
+    while horas < 1:
+        horas = int(input("Cantidad de horas no válida. Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
+
+    opcion = input(
+        "¿Qué tipo de vehículo va a utilizar?\n1. Vehículo personal\n2. Vehículo de la empresa\nIngrese el número de la opción que desea: ")
+
+    while opcion not in ["1", "2"]:
+        opcion = input(
+            "Opción no válida. ¿Qué tipo de vehículo va a utilizar?\n1. Vehículo personal\n2. Vehículo de la empresa\nIngrese el número de la opción que desea: ")
+
+    if opcion == "1":
+        print("Ha elegido utilizar su vehículo personal")
+        costo_hora = 3000  # costo por hora con vehículo propio: 3000 colones
+    else:
+        print("Ha elegido utilizar el vehículo de la empresa")
+        costo_hora = 4000  # costo por hora con vehículo de la empresa: 4000 colones
+
+    # Hora de inicio
+    hora_inicio = input("Ingrese la hora de inicio (formato de 24 horas, por ejemplo 13:30): ")
+
+    # Hora de fin
+    hora_fin = input("Ingrese la hora de fin (formato de 24 horas, por ejemplo 15:30): ")
+    dias = input("Ingrese los días en los que distribuirá las horas contratadas (separados por comas, sin espacios): ")
+
+    # Resumen de la reserva
+    print("\nResumen de la reserva:")
+    print(f"Cantidad de horas: {horas}")
+    print(f"Vehículo utilizado: {'Propio' if opcion == '1' else 'De la empresa'}")
+    print(f"Hora de inicio: {hora_inicio}")
+    print(f"Hora de fin: {hora_fin}")
+    print(f"Días: {dias}")
+
+    # Aquí se pueden guardar los datos de la reserva en un archivo de texto, por ejemplo:
+    with open("reservas.txt", "a") as file:
+        file.write(
+            f"Reserva de clases de manejo: {horas} horas, vehículo {opcion}, hora inicio {hora_inicio}, hora fin {hora_fin}, días {dias}\n")
+
+    # Aquí se puede retornar el costo total de la reserva
+    costo_total = horas * costo_hora
+    print(f"\n¡Reserva agregada con éxito! Costo total: {costo_total} colones")
+    return costo_total
 
 import random
 
@@ -67,39 +116,6 @@ def reservarCursoTeorico():
     costo_total = horas * 2000
 
     print(f"¡Reserva creada exitosamente! El costo total es de {costo_total} colones.")
-
-
-def reservarClasesManejo():
-    print("Este servicio se da de martes a domingo, de 8am a 5pm, y su costo va a depender de si aporta su carro o no.")
-
-    horas = int(input("\nIngrese la cantidad de horas a contratar (mínimo 1 hora): "))
-
-    while horas < 1:
-        horas = int(input("Cantidad de horas no válida. Ingrese la cantidad de horas a contratar (mínimo 1 hora): "))
-
-    opcion = input("¿Qué tipo de vehículo va a utilizar?\n1. Vehículo personal\n2. Vehículo de la empresa\nIngrese el número de la opción que desea: ")
-
-    while opcion not in ["1", "2"]:
-        opcion = input("Opción no válida. ¿Qué tipo de vehículo va a utilizar?\n1. Vehículo personal\n2. Vehículo de la empresa\nIngrese el número de la opción que desea: ")
-
-    if opcion == "1":
-        print("Ha elegido utilizar su vehículo personal")
-        costo_hora = 3000  # costo por hora con vehículo propio: 3000 colones
-    else:
-        print("Ha elegido utilizar el vehículo de la empresa")
-        costo_hora = 4000  # costo por hora con vehículo de la empresa: 4000 colones
-
-    dias = input("Ingrese los días en los que distribuirá las horas contratadas (separados por comas, sin espacios): ")
-
-    # aquí se pueden guardar los datos de la reserva en un archivo de texto, por ejemplo:
-    with open("reservas.txt", "a") as file:
-        file.write(f"Reserva de clases de manejo: {horas} horas, vehículo {opcion}, días {dias}\n")
-
-    costo_horas = horas * costo_hora
-
-    print(f"¡Reserva creada exitosamente! El costo total es de {costo_horas} colones.")
-
-
 def dictamenMedico():
     nombre = input("\nIngrese su nombre completo: ")
     telefono = input("Ingrese su número telefónico: ")
@@ -137,8 +153,8 @@ def dictamenMedico():
 
 def generarFactura():
     curso_teorico = 2000
-    curso_practico_propio = 3500
-    curso_practico_prestado = 4500
+    curso_practico_Cpropio = 3000
+    curso_practico_Cprestado = 4000
     dictamen_medico = 5000
 
     total = 0
@@ -153,9 +169,9 @@ def generarFactura():
                 opcion = linea.split(",")[3].strip()
                 horas = int(linea.split(",")[2])
                 if opcion == "vehiculo_propio":
-                    total += horas * curso_practico_propio
+                    total += horas * curso_practico_Cpropio
                 elif opcion == "vehiculo_prestado":
-                    total += horas * curso_practico_prestado
+                    total += horas * curso_practico_Cprestado
 
     with open("dictamenes.txt", "r") as archivo:
         lineas = archivo.readlines()
@@ -166,26 +182,30 @@ def generarFactura():
 
 
 
-def reporteAdministrativo(clave):
-    if clave != "admin123": # Verifica que la clave de administrador sea correcta
-        print("Clave incorrecta. Acceso denegado.")
-        return
-    
-    num_reservas = 0
-    dinero_total = 0
-    
-    with open("reservas.txt", "r") as archivo:
-        for linea in archivo:
-            datos = linea.split(",") 
-            tipo_servicio = datos[0]
-            costo = int(datos[1])
-            num_horas = int(datos[2])
-            
-            num_reservas += num_horas
-            dinero_total += costo * num_horas
-            
-    # Imprime el reporte administrativo con la cantidad de reservas y el dinero recolectado
-    print(f"Cantidad de reservas: {num_reservas}")
-    print(f"Dinero recolectado: {dinero_total} colones")
+def reporteAdministrativo():
+    print("Reporte administrativo\n")
+    total_usuarios = 0
+    total_ingresos = 0
+
+    # Contar usuarios
+    with open("usuarios.txt", "r") as file:
+        for line in file:
+            total_usuarios += 1
+
+    # Calcular ingresos
+    with open("reservas.txt", "r") as file:
+        for line in file:
+            if "clases de manejo" in line:
+                horas = int(line.split(": ")[1].split(" ")[0])
+                vehiculo = line.split(",")[1].split(" ")[2]
+                costo_hora = 3000 if vehiculo == "personal" else 4000
+                total_ingresos += horas * costo_hora
+            elif "curso teorico" in line:
+                horas = int(line.split(": ")[1].split(" ")[0])
+                total_ingresos += horas * 2000
+
+    # Mostrar resultados
+    print(f"Total de usuarios registrados: {total_usuarios}")
+    print(f"Total de ingresos generados: {total_ingresos} colones")
 
 mainMenu()
